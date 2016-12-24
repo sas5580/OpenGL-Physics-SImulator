@@ -7,6 +7,7 @@
 #include "texture.h"
 #include "transform.h"
 #include "camera.h"
+#include "physicsobject.h"
 
 #define WIDTH 800
 #define HEIGHT 600
@@ -21,8 +22,9 @@ int main(int argc, char *args[])
 
 	unsigned int indicies[] = { 0, 1, 2 };
 
-	Mesh brick_triangle(verticies, sizeof(verticies) / sizeof(verticies[0]), indicies, sizeof(indicies) / sizeof(indicies[0]));
+	Mesh triangle(verticies, sizeof(verticies) / sizeof(verticies[0]), indicies, sizeof(indicies) / sizeof(indicies[0]));
 	Mesh monkey(".\\res\\monkey3.obj");
+	Mesh sphere(".\\res\\sphere.obj");
 	Shader shader(".\\res\\basicShader");
 	Texture texture(".\\res\\bricks.jpg");
 	Camera camera(glm::vec3(0.0f, 0.0f, 5.0f), 70.0f, display.getAspectRatio(), 0.01f, 1000.0f);
@@ -37,7 +39,7 @@ int main(int argc, char *args[])
 		//transform.getPos().z += 1e-4;
 		//transform.getPos().z = 0.5f * cosf(counter);
 		//transform.getRot().x = counter;
-		//transform.getRot().y = counter;
+		transform.GetRot()->y = counter;
 		//transform.getRot().z = counter;
 		//transform.getScale().x = sinf(counter) + 1.5f;
 		//transform.getScale().y = sinf(counter) + 1.5f;
@@ -45,7 +47,7 @@ int main(int argc, char *args[])
 		shader.Bind();
 		shader.Update(transform, camera);
 
-		texture.Bind(0);
+		texture.Bind();
 
 		monkey.Draw();
 

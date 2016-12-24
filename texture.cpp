@@ -32,10 +32,7 @@ Texture::~Texture()
 }
 
 
-void Texture::Bind(unsigned int unit)
+void Texture::Bind()
 {
-	assert(unit >= 0 && unit < 32);
-
-	glActiveTexture(GL_TEXTURE0 + unit);
 	glBindTexture(GL_TEXTURE_2D, m_texture);
 }

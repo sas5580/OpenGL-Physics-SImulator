@@ -31,6 +31,9 @@
     <ClCompile Include="obj_loader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="physicsobject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="display.h">
@@ -55,6 +58,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="obj_loader.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="physicsobject.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
