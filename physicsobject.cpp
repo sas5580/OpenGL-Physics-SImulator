@@ -1,7 +1,10 @@
 #include "physicsobject.h"
 
+#include <iostream>
+
 glm::vec3 PhysicsObject::gravity = glm::vec3();
 std::vector <PhysicsObject*> PhysicsObject::AllObjects;
+unsigned int PhysicsObject::NumObjects = 0;
 
 PhysicsObject::PhysicsObject(Mesh* mesh, Texture* texture, glm::vec3 pos, glm::vec3 vel, glm::vec3 acc )
 {
@@ -12,6 +15,9 @@ PhysicsObject::PhysicsObject(Mesh* mesh, Texture* texture, glm::vec3 pos, glm::v
 	m_vel = vel;
 	m_acc = acc;
 
+	m_hanging = true;
+
+	NumObjects++;
 	AllObjects.push_back(this);
 }
 
@@ -21,8 +27,18 @@ void PhysicsObject::Update()
 	{
 		PhysicsObject* obj = AllObjects[i];
 
-		obj->m_vel += obj->m_acc + gravity;
+		if (obj->m_pos.y < -10.0f)
+		{
+			AllObjects.erase(AllObjects.begin() + i);
+			NumObjects--;
+			return;
+		}
+
+		obj->m_vel += obj->m_acc;
 		obj->m_pos += obj->m_vel;
+
+		if (!obj->m_hanging)
+			obj->m_vel += gravity;
 
 		obj->m_transform.SetPos(obj->m_pos);
 	}

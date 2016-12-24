@@ -26,7 +26,7 @@ Mesh sphere(".\\res\\sphere.obj");
 Shader shader(".\\res\\basicShader");
 Texture texture(".\\res\\bricks.jpg");
 Camera camera(glm::vec3(0.0f, 2.0f, 8.0f), 70.0f, display.getAspectRatio(), 0.01f, 1000.0f,
-	glm::vec3(0.0f, -1.0f, -4.0f));
+	glm::vec3(0.0f, -2.0f, -4.0f));
 Transform transform;
 
 int main(int argc, char *args[])
@@ -35,16 +35,28 @@ int main(int argc, char *args[])
 	bool isRunning = true;
 
 	PhysicsObject monkey1 = PhysicsObject(&monkey, &texture);
-	//PhysicsObject monkey2 = PhysicsObject(&monkey, &texture, glm::vec3(0.0f, 2.0f, 0.0f));
+	//PhysicsObject monkey2 = PhysicsObject(&monkey, &texture, glm::vec3(-2.0f, 2.0f, 0.0f));
 
-	PhysicsObject::SetGravity(glm::vec3(0.0f, -1e-6f, 0.0f));
+	PhysicsObject::SetGravity(glm::vec3(0.0f, -5e-6f, 0.0f));
 	
 	while (isRunning)
 	{
 		while (SDL_PollEvent(&e))
 		{
-			if (e.type == SDL_QUIT)
+			switch (e.type)
+			{
+			case SDL_QUIT:
 				isRunning = false;
+				break;
+			case SDL_KEYUP:
+				switch (e.key.keysym.sym) 
+				{
+				case SDLK_SPACE:
+					if (PhysicsObject::GetNumObjects())
+						PhysicsObject::AllObjects[PhysicsObject::GetNumObjects() - 1]->SetHanging(false);
+				}
+
+			}
 		}
 
 		display.Clear(0.0f, 0.0f, 0.0f, 1.0f);

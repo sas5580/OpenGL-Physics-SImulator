@@ -19,11 +19,16 @@ public:
 
 	static void Update();
 	static void Render(Shader* shader, Camera* camera);
+
+	static unsigned int GetNumObjects() { return NumObjects; }
+
+	void SetHanging(const bool& hanging) { m_hanging = hanging; }
 	
 
 protected:
 private:
 	static glm::vec3 gravity;
+	static unsigned int NumObjects;
 
 	glm::vec3 m_pos;
 	glm::vec3 m_vel;
@@ -32,6 +37,8 @@ private:
 	Mesh* m_mesh;
 	Texture* m_texture;
 	Transform m_transform;
+
+	bool m_hanging;
 };
 
 #endif // !PHYSICSOBJECT_H
