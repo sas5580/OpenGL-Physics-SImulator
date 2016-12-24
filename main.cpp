@@ -41,6 +41,7 @@ int main(int argc, char *args[])
 	
 	while (isRunning)
 	{
+		//controls
 		while (SDL_PollEvent(&e))
 		{
 			switch (e.type)
@@ -48,14 +49,39 @@ int main(int argc, char *args[])
 			case SDL_QUIT:
 				isRunning = false;
 				break;
-			case SDL_KEYUP:
-				switch (e.key.keysym.sym) 
-				{
-				case SDLK_SPACE:
-					if (PhysicsObject::GetNumObjects())
-						PhysicsObject::AllObjects[PhysicsObject::GetNumObjects() - 1]->SetHanging(false);
-				}
 
+			case SDL_KEYUP:
+				if (PhysicsObject::GetNumObjects())
+				{
+					unsigned int curObj = PhysicsObject::GetNumObjects() - 1;
+					switch (e.key.keysym.sym)
+					{
+					case SDLK_SPACE:
+						PhysicsObject::AllObjects[curObj]->SetHanging(false);
+						break;
+
+					case SDLK_LEFT: case SDLK_RIGHT:
+						PhysicsObject::AllObjects[curObj]->GetVel()->x = 0;
+						break;
+					}
+				}
+				break;
+
+			case SDL_KEYDOWN:
+				if (PhysicsObject::GetNumObjects())
+				{
+					unsigned int curObj = PhysicsObject::GetNumObjects() - 1;
+					switch (e.key.keysym.sym)
+					{
+					case SDLK_LEFT:
+						PhysicsObject::AllObjects[curObj]->GetVel()->x = -0.003f;
+						break;
+
+					case SDLK_RIGHT:
+						PhysicsObject::AllObjects[curObj]->GetVel()->x = 0.003f;
+						break;
+					}
+				}
 			}
 		}
 

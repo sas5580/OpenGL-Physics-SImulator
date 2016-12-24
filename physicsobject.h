@@ -23,6 +23,10 @@ public:
 	static unsigned int GetNumObjects() { return NumObjects; }
 
 	void SetHanging(const bool& hanging) { m_hanging = hanging; }
+
+	glm::vec3* GetPos() { return &m_pos; }
+	glm::vec3* GetVel() { return &m_vel; }
+	glm::vec3* GetAcc() { return &m_acc; }
 	
 
 protected:
