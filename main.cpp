@@ -25,7 +25,7 @@ Mesh monkey(".\\res\\monkey3.obj");
 Mesh sphere(".\\res\\sphere.obj");
 Shader shader(".\\res\\basicShader");
 Texture texture(".\\res\\bricks.jpg");
-Camera camera(glm::vec3(0.0f, 0.0f, 5.0f), 70.0f, display.getAspectRatio(), 0.01f, 1000.0f);
+Camera camera(glm::vec3(0.0f, 0.0f, 4.0f), 70.0f, display.getAspectRatio(), 0.01f, 1000.0f);
 Transform transform;
 
 int main(int argc, char *args[])
