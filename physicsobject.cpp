@@ -3,8 +3,7 @@
 glm::vec3 PhysicsObject::gravity = glm::vec3();
 std::vector <PhysicsObject*> PhysicsObject::AllObjects;
 
-PhysicsObject::PhysicsObject(Mesh* mesh, Texture* texture, 
-	glm::vec3 pos = glm::vec3(), glm::vec3 vel = glm::vec3(), glm::vec3 acc = glm::vec3() )
+PhysicsObject::PhysicsObject(Mesh* mesh, Texture* texture, glm::vec3 pos, glm::vec3 vel, glm::vec3 acc )
 {
 	m_mesh = mesh;
 	m_texture = texture;

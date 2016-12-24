@@ -27,8 +27,6 @@ Display::Display(int width, int height, const std::string& title)
 		std::cerr << "Glew failed to initialize" << std::endl;
 	}
 
-	m_isClosed = false;
-
 	glEnable(GL_DEPTH_TEST);
 
 	glEnable(GL_CULL_FACE);
@@ -49,20 +47,7 @@ void Display::Clear(float r, float g, float b, float a)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-bool Display::isClosed() 
-{
-	return m_isClosed;
-}
-
-void Display::Update() 
+void Display::SwapBuffers() 
 {
 	SDL_GL_SwapWindow(m_window);
-
-	SDL_Event e;
-
-	while (SDL_PollEvent(&e))
-	{
-		if (e.type == SDL_QUIT)
-			m_isClosed = true;
-	}
 }

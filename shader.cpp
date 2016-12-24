@@ -7,11 +7,13 @@ static std::string LoadShader(const std::string& fileName);
 
 static GLuint CreateShader(const std::string& text, GLenum shaderType);
 
-Shader::Shader(const std::string& fileName)
+Shader::Shader(const std::string& fileName, glm::vec3 LightDir)
 {
 	m_program = glCreateProgram();
 	m_shaders[0] = CreateShader(LoadShader(fileName + ".vs"), GL_VERTEX_SHADER);
 	m_shaders[1] = CreateShader(LoadShader(fileName + ".fs"), GL_FRAGMENT_SHADER);
+
+	m_LightDirection = LightDir;
 
 	for (unsigned int i = 0; i < NUM_SHADERS; i++)
 		glAttachShader(m_program, m_shaders[i]);
@@ -55,7 +57,7 @@ void Shader::Update(const Transform& transform, const Camera& camera)
 
 	glUniformMatrix4fv(m_uniforms[0], 1, GL_FALSE, &MVP[0][0]);
 	glUniformMatrix4fv(m_uniforms[1], 1, GL_FALSE, &Normal[0][0]);
-	glUniform3f(m_uniforms[2], 0.0f, 0.0f, -1.0f);
+	glUniform3f(m_uniforms[2], m_LightDirection.x, m_LightDirection.y, m_LightDirection.z);
 }
 
 static GLuint CreateShader(const std::string& text, GLenum shaderType)

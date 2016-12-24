@@ -9,12 +9,15 @@
 class Shader
 {
 public:
-	Shader(const std::string& fileName);
+	Shader(const std::string& fileName, glm::vec3 LightDir = glm::vec3(0.0f, 0.0f, -1.0f));
 
 	void Bind();
 	void Update(const Transform& transform, const Camera& camera);
 
 	virtual ~Shader();
+
+	glm::vec3* GetLightDir() { return &m_LightDirection; }
+
 protected:
 private:
 	Shader(const Shader& other) {}
@@ -32,6 +35,8 @@ private:
 	GLuint m_program;
 	GLuint m_shaders[NUM_SHADERS];
 	GLuint m_uniforms[NUM_UNIFORMS];
+
+	glm::vec3 m_LightDirection;
 };
 
 

@@ -12,48 +12,45 @@
 #define WIDTH 800
 #define HEIGHT 600
 
+Display display(WIDTH, HEIGHT, "Hello World!");
+
+Vertex verticies[] = { Vertex(glm::vec3(-0.5, -0.5,  0.0), glm::vec2(0.0, 0.0), glm::vec3(0, 0, 1)),
+Vertex(glm::vec3(0.0,  0.5,  0.0), glm::vec2(0.5, 1.0), glm::vec3(0, 0, 1)),
+Vertex(glm::vec3(0.5, -0.5,  0.0), glm::vec2(1.0, 0.0), glm::vec3(0, 0, 1)), };
+
+unsigned int indicies[] = { 0, 1, 2 };
+
+Mesh triangle(verticies, sizeof(verticies) / sizeof(verticies[0]), indicies, sizeof(indicies) / sizeof(indicies[0]));
+Mesh monkey(".\\res\\monkey3.obj");
+Mesh sphere(".\\res\\sphere.obj");
+Shader shader(".\\res\\basicShader");
+Texture texture(".\\res\\bricks.jpg");
+Camera camera(glm::vec3(0.0f, 0.0f, 5.0f), 70.0f, display.getAspectRatio(), 0.01f, 1000.0f);
+Transform transform;
+
 int main(int argc, char *args[])
 {
-	Display display(WIDTH, HEIGHT, "Hello World!");
+	SDL_Event e;
+	bool isRunning = true;
 
-	Vertex verticies[] = {  Vertex(glm::vec3(-0.5, -0.5,  0.0), glm::vec2(0.0, 0.0), glm::vec3(0, 0, 1)),
-							Vertex(glm::vec3( 0.0,  0.5,  0.0), glm::vec2(0.5, 1.0), glm::vec3(0, 0, 1)),
-							Vertex(glm::vec3( 0.5, -0.5,  0.0), glm::vec2(1.0, 0.0), glm::vec3(0, 0, 1)), };
-
-	unsigned int indicies[] = { 0, 1, 2 };
-
-	Mesh triangle(verticies, sizeof(verticies) / sizeof(verticies[0]), indicies, sizeof(indicies) / sizeof(indicies[0]));
-	Mesh monkey(".\\res\\monkey3.obj");
-	Mesh sphere(".\\res\\sphere.obj");
-	Shader shader(".\\res\\basicShader");
-	Texture texture(".\\res\\bricks.jpg");
-	Camera camera(glm::vec3(0.0f, 0.0f, 5.0f), 70.0f, display.getAspectRatio(), 0.01f, 1000.0f);
-	Transform transform;
-
-	float counter = 0.0f;
-
-	while (!display.isClosed())
+	PhysicsObject(&monkey, &texture);
+	
+	while (isRunning)
 	{
-		display.Clear(0.0f, 0.15f, 0.3f, 1.0f);
+		while (SDL_PollEvent(&e))
+		{
+			if (e.type == SDL_QUIT)
+				isRunning = false;
+		}
 
-		//transform.getPos().z += 1e-4;
-		//transform.getPos().z = 0.5f * cosf(counter);
-		//transform.getRot().x = counter;
-		transform.GetRot()->y = counter;
-		//transform.getRot().z = counter;
-		//transform.getScale().x = sinf(counter) + 1.5f;
-		//transform.getScale().y = sinf(counter) + 1.5f;
-		
+		display.Clear(0.0f, 0.0f, 0.0f, 1.0f);
 		shader.Bind();
-		shader.Update(transform, camera);
 
-		texture.Bind();
+		PhysicsObject::Update();
+		PhysicsObject::Render(&shader, &camera);
 
-		monkey.Draw();
-
-		display.Update();
-
-		counter += 0.0002f;
+		display.SwapBuffers();
+		SDL_Delay(1);
 	}
 
 	return 0;

@@ -11,7 +11,7 @@
 class PhysicsObject
 {
 public:
-	PhysicsObject(Mesh* mesh, Texture* texture, glm::vec3 pos, glm::vec3 vel, glm::vec3 acc);
+	PhysicsObject(Mesh* mesh, Texture* texture,glm::vec3 pos = glm::vec3(), glm::vec3 vel = glm::vec3(), glm::vec3 acc = glm::vec3() );
 
 	static void SetGravity(glm::vec3 g) { gravity = g; }
 
