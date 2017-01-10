@@ -1,5 +1,6 @@
 #include <iostream>
 #include <GL/glew.h>
+#include <vector>
 
 #include "display.h"
 #include "shader.h"
@@ -13,31 +14,23 @@
 #define HEIGHT 600
 
 Display display(WIDTH, HEIGHT, "Hello World!");
-
-Vertex verticies[] = { Vertex(glm::vec3(-0.5, -0.5,  0.0), glm::vec2(0.0, 0.0), glm::vec3(0, 0, 1)),
-Vertex(glm::vec3(0.0,  0.5,  0.0), glm::vec2(0.5, 1.0), glm::vec3(0, 0, 1)),
-Vertex(glm::vec3(0.5, -0.5,  0.0), glm::vec2(1.0, 0.0), glm::vec3(0, 0, 1)), };
-
-unsigned int indicies[] = { 0, 1, 2 };
-
-Mesh triangle(verticies, sizeof(verticies) / sizeof(verticies[0]), indicies, sizeof(indicies) / sizeof(indicies[0]));
 Mesh monkey(".\\res\\monkey3.obj");
-Mesh sphere(".\\res\\sphere.obj");
 Shader shader(".\\res\\basicShader");
 Texture texture(".\\res\\bricks.jpg");
 Camera camera(glm::vec3(0.0f, 2.0f, 8.0f), 70.0f, display.getAspectRatio(), 0.01f, 1000.0f,
 	glm::vec3(0.0f, -2.0f, -4.0f));
 Transform transform;
 
+std::vector<PhysicsObject> things;
+
 int main(int argc, char *args[])
 {
 	SDL_Event e;
 	bool isRunning = true;
+	new PhysicsObject(&monkey, &texture);
+	//new PhysicsObject monkey2 = PhysicsObject(&monkey, &texture, glm::vec3(-2.0f, 2.0f, 0.0f));
 
-	PhysicsObject monkey1 = PhysicsObject(&monkey, &texture);
-	//PhysicsObject monkey2 = PhysicsObject(&monkey, &texture, glm::vec3(-2.0f, 2.0f, 0.0f));
-
-	PhysicsObject::SetGravity(glm::vec3(0.0f, -5e-6f, 0.0f));
+	PhysicsObject::SetGravity(glm::vec3(0.0f, -2e-5f, 0.0f));
 	
 	while (isRunning)
 	{
@@ -63,6 +56,10 @@ int main(int argc, char *args[])
 					case SDLK_LEFT: case SDLK_RIGHT:
 						PhysicsObject::AllObjects[curObj]->GetVel()->x = 0;
 						break;
+
+					case SDLK_UP: case SDLK_DOWN:
+						PhysicsObject::AllObjects[curObj]->GetVel()->z = 0;
+						break;
 					}
 				}
 				break;
@@ -79,6 +76,14 @@ int main(int argc, char *args[])
 
 					case SDLK_RIGHT:
 						PhysicsObject::AllObjects[curObj]->GetVel()->x = 0.003f;
+						break;
+
+					case SDLK_UP:
+						PhysicsObject::AllObjects[curObj]->GetVel()->z = -0.003f;
+						break;
+
+					case SDLK_DOWN:
+						PhysicsObject::AllObjects[curObj]->GetVel()->z = 0.003f;
 						break;
 					}
 				}

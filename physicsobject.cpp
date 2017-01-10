@@ -1,6 +1,7 @@
 #include "physicsobject.h"
 
 #include <iostream>
+#include <cstdio>
 
 glm::vec3 PhysicsObject::gravity = glm::vec3();
 std::vector <PhysicsObject*> PhysicsObject::AllObjects;
@@ -26,13 +27,8 @@ void PhysicsObject::Update()
 	for (unsigned int i = 0; i < AllObjects.size(); i++)
 	{
 		PhysicsObject* obj = AllObjects[i];
-
-		if (obj->m_pos.y < -10.0f)
-		{
-			AllObjects.erase(AllObjects.begin() + i);
-			NumObjects--;
-			return;
-		}
+		
+		
 
 		obj->m_vel += obj->m_acc;
 		obj->m_pos += obj->m_vel;
@@ -40,7 +36,12 @@ void PhysicsObject::Update()
 		if (!obj->m_hanging)
 			obj->m_vel += gravity;
 
+		if (i==AllObjects.size()-1 && obj->m_pos.y < -2.0f)
+			new PhysicsObject(obj->m_mesh, obj->m_texture);
+
 		obj->m_transform.SetPos(obj->m_pos);
+
+		//if (i==0) printf("VEL: %g\n", i, obj->m_vel.y);
 	}
 }
 
@@ -49,6 +50,13 @@ void PhysicsObject::Render(Shader* shader, Camera* camera)
 	for (unsigned int i = 0; i < AllObjects.size(); i++)
 	{
 		PhysicsObject* obj = AllObjects[i];
+		if (i == 0) std::cout << (obj->m_transform.GetMVP(*camera)*glm::vec4(obj->m_pos, 0)).y << std::endl;
+		if ((obj->m_transform.GetMVP(*camera)*glm::vec4(obj->m_pos, 0)).y < -20.0f) //change to when monkey leaves camera view
+		{
+			AllObjects.erase(AllObjects.begin() + i);
+			NumObjects--;
+			return;
+		}
 
 		shader->Update(obj->m_transform, *camera);
 		obj->m_texture->Bind();
