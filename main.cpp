@@ -30,7 +30,7 @@ int main(int argc, char *args[])
 	new PhysicsObject(&monkey, &texture);
 	//new PhysicsObject monkey2 = PhysicsObject(&monkey, &texture, glm::vec3(-2.0f, 2.0f, 0.0f));
 
-	PhysicsObject::SetGravity(glm::vec3(0.0f, -2e-5f, 0.0f));
+	PhysicsObject::SetGravity(glm::vec3(0.0f, -2e-4f, 0.0f));
 	
 	while (isRunning)
 	{
@@ -71,19 +71,19 @@ int main(int argc, char *args[])
 					switch (e.key.keysym.sym)
 					{
 					case SDLK_LEFT:
-						PhysicsObject::AllObjects[curObj]->GetVel()->x = -0.003f;
+						PhysicsObject::AllObjects[curObj]->GetVel()->x = -0.03f;
 						break;
 
 					case SDLK_RIGHT:
-						PhysicsObject::AllObjects[curObj]->GetVel()->x = 0.003f;
+						PhysicsObject::AllObjects[curObj]->GetVel()->x = 0.03f;
 						break;
 
 					case SDLK_UP:
-						PhysicsObject::AllObjects[curObj]->GetVel()->z = -0.003f;
+						PhysicsObject::AllObjects[curObj]->GetVel()->z = -0.03f;
 						break;
 
 					case SDLK_DOWN:
-						PhysicsObject::AllObjects[curObj]->GetVel()->z = 0.003f;
+						PhysicsObject::AllObjects[curObj]->GetVel()->z = 0.03f;
 						break;
 					}
 				}
